@@ -34,8 +34,11 @@ build-deb:
 	mkdir -p debian/usr/bin;
 	# copy over the files 
 	cp -vf log-cleaner.py debian/usr/bin/log-cleaner
-	# make the program executable
+	cp -vf cleanlogs.py debian/usr/bin/cleanlogs
+	# make the programs executable
 	chmod u+x ./debian/usr/bin/log-cleaner
+	chmod u+x ./debian/usr/bin/cleanlogs
+	chmod go-rwx ./debian/usr/bin/cleanlogs
 	# Create the md5sums file
 	find ./debian/ -type f -print0 | xargs -0 md5sum > ./debian/DEBIAN/md5sums
 	# cut filenames of extra junk
