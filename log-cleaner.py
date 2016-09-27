@@ -80,11 +80,18 @@ else:
 if len(userChoice[1]) > 0:
 	# build the path of this cleanup script
 	path='/etc/cron.d/logCleaner'
-	# the content of the log cleanup script
+	# build the content of the cron file
 	if userChoice[1] != 'never':
-		# build the content of the cron file, remove all files but leave directories
-		# intact in order to pervent breaking everything 
-		cleanupCron = ('@'+userChoice[1]+'    root    find /var/log/ -type f -delete')
+		# - Delete compressed rotated logs since they are inactive and will not cause any
+		#   problems when missing AFAIK
+		# - Compressed files are deleted first to make less files for the next command to work
+		#   with
+		cleanupCron = ('@'+userChoice[1]+'''    root    find /var/log/ -name '*.gz' -type f -delete\n''')
+		#   - zero out all files, leaving the file paths intact but removing data makes
+		#     programs break less since some software can not handle logs files being
+		#     removed completely
+		#   - leave directories intact in order to pervent breaking everything 
+		cleanupCron += ('@'+userChoice[1]+'''    root    find /var/log/ -type f -exec bash -c 'echo "" > {} ' \;\n''')
 	else:
 		# the user picked never so make the cron file blank
 		cleanupCron = ''
