@@ -18,7 +18,7 @@
 show:
 	echo 'Run "make install" as root to install program!'
 run:
-	./log-cleaner.py
+	./logcleanersetup.py
 install: build
 	sudo gdebi --no log-cleaner_UNSTABLE.deb
 uninstall:
@@ -33,12 +33,11 @@ build-deb:
 	mkdir -p debian/usr;
 	mkdir -p debian/usr/bin;
 	# copy over the files 
-	cp -vf log-cleaner.py debian/usr/bin/log-cleaner
+	cp -vf logcleanersetup.py debian/usr/bin/logcleanersetup
 	cp -vf cleanlogs.py debian/usr/bin/cleanlogs
-	# make the programs executable
-	chmod u+x ./debian/usr/bin/log-cleaner
-	chmod u+x ./debian/usr/bin/cleanlogs
-	chmod go-rwx ./debian/usr/bin/cleanlogs
+	# make the programs executable only by root
+	chmod u+x ./debian/usr/bin/*
+	chmod go-rwx ./debian/usr/bin/*
 	# Create the md5sums file
 	find ./debian/ -type f -print0 | xargs -0 md5sum > ./debian/DEBIAN/md5sums
 	# cut filenames of extra junk
