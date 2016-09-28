@@ -1,8 +1,8 @@
 Package: log-cleaner
-Version: 0.1.0
+Version: 0.2.0
 Section: admin
 Maintainer: Carl J Smith <BM-NBHLt5EUFVEbRCmrbVrfCyaB2c8d24U9>
-Installed-Size: 16
+Installed-Size: 20
 Priority: optional
 Architecture: all
 Depends: python3 , python3-dialog, coreutils, findutils
